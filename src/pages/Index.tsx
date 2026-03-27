@@ -57,6 +57,14 @@ const Index = () => {
     saveProducts(newProducts);
   };
 
+  const handleEditProduct = (id: string, updated: Omit<Product, "id" | "clicks">) => {
+    const newProducts = products.map((p) =>
+      p.id === id ? { ...p, ...updated } : p
+    );
+    setProducts(newProducts);
+    saveProducts(newProducts);
+  };
+
   const handleDeleteProduct = (id: string) => {
     const newProducts = products.filter((p) => p.id !== id);
     setProducts(newProducts);
@@ -170,6 +178,7 @@ const Index = () => {
         onClose={() => setShowAdminPanel(false)}
         products={products}
         onAddProduct={handleAddProduct}
+        onEditProduct={handleEditProduct}
         onDeleteProduct={handleDeleteProduct}
         onLogout={handleLogout}
       />
