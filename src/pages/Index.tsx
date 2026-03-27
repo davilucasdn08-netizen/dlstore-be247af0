@@ -71,8 +71,9 @@ const Index = () => {
     saveProducts(newProducts);
   };
 
-  const handleLogin = (code: string) => {
-    if (code === ADMIN_CODE) {
+  const handleLogin = async (code: string) => {
+    const hash = await hashCode(code);
+    if (hash === ADMIN_HASH) {
       setIsAdmin(true);
       setShowLogin(false);
       setShowAdminPanel(true);
