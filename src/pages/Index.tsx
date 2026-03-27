@@ -173,15 +173,17 @@ const Index = () => {
       />
 
       {/* Admin Panel */}
-      <AdminPanel
-        isOpen={showAdminPanel}
-        onClose={() => setShowAdminPanel(false)}
-        products={products}
-        onAddProduct={handleAddProduct}
-        onEditProduct={handleEditProduct}
-        onDeleteProduct={handleDeleteProduct}
-        onLogout={handleLogout}
-      />
+      {showAdminPanel && (
+        <AdminPanel
+          isOpen={showAdminPanel}
+          onClose={() => setShowAdminPanel(false)}
+          products={products}
+          onAddProduct={handleAddProduct}
+          onEditProduct={handleEditProduct}
+          onDeleteProduct={handleDeleteProduct}
+          onLogout={handleLogout}
+        />
+      )}
     </div>
   );
 };
