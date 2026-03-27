@@ -4,8 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import AdminPanel, { type Product } from "@/components/AdminPanel";
 import AdminLoginDialog from "@/components/AdminLoginDialog";
 
-// SHA-256 hash of the admin code
-const ADMIN_HASH = "a]3f8c2d9e1b7a4f6c0d5e8b2a9f1c3d7e6b4a0f5c8d2e9b1a7f3c6d0e5b8a";
+const ADMIN_HASH = "df4142c988f294e5274655671db7148f5d74dc8a8dc3d936074d57b35e51c0c2";
 
 async function hashCode(code: string): Promise<string> {
   const encoder = new TextEncoder();
