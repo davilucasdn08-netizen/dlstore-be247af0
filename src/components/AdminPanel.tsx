@@ -80,7 +80,7 @@ const AdminPanel = ({ isOpen, onClose, products, onAddProduct, onEditProduct, on
   return (
     <div
       className={`fixed top-0 right-0 h-full w-80 md:w-96 bg-card border-l border-border z-50 transform transition-transform duration-300 ${
-        isOpen ? "translate-x-0" : "translate-x-full"
+        isOpen ? "translate-x-0" : "translate-x-full pointer-events-none"
       } overflow-y-auto`}
     >
       <div className="p-5">

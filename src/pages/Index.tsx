@@ -160,7 +160,7 @@ const Index = () => {
       {/* Admin FAB */}
       <button
         onClick={() => (isAdmin ? setShowAdminPanel(!showAdminPanel) : setShowLogin(true))}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full gradient-primary text-primary-foreground flex items-center justify-center shadow-xl hover:opacity-90 transition-opacity z-40"
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full gradient-primary text-primary-foreground flex items-center justify-center shadow-xl hover:opacity-90 transition-opacity z-[60]"
       >
         <Lock size={22} />
       </button>
@@ -173,15 +173,17 @@ const Index = () => {
       />
 
       {/* Admin Panel */}
-      <AdminPanel
-        isOpen={showAdminPanel}
-        onClose={() => setShowAdminPanel(false)}
-        products={products}
-        onAddProduct={handleAddProduct}
-        onEditProduct={handleEditProduct}
-        onDeleteProduct={handleDeleteProduct}
-        onLogout={handleLogout}
-      />
+      {showAdminPanel && (
+        <AdminPanel
+          isOpen={showAdminPanel}
+          onClose={() => setShowAdminPanel(false)}
+          products={products}
+          onAddProduct={handleAddProduct}
+          onEditProduct={handleEditProduct}
+          onDeleteProduct={handleDeleteProduct}
+          onLogout={handleLogout}
+        />
+      )}
     </div>
   );
 };
