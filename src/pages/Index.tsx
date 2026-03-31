@@ -63,6 +63,20 @@ const Index = () => {
 
   useEffect(() => {
     fetchProducts();
+
+    // Realtime: keep products in sync across all devices
+    const channel = supabase
+      .channel("products-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "products" },
+        () => fetchProducts()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchProducts]);
 
   const filteredProducts = useMemo(() => {
@@ -74,6 +88,11 @@ const Index = () => {
   }, [products, search, activeCategory]);
 
   const handleAddProduct = async (product: Omit<Product, "id" | "clicks">) => {
+    // Optimistic: add immediately to UI
+    const tempId = crypto.randomUUID();
+    const optimistic: Product = { ...product, id: tempId, clicks: 0 };
+    setProducts((prev) => [optimistic, ...prev]);
+
     const { error } = await supabase.from("products").insert({
       name: product.name,
       image_url: product.imageUrl,
@@ -81,7 +100,12 @@ const Index = () => {
       category: product.category,
       price: product.price,
     });
-    if (!error) fetchProducts();
+    // Refresh to get real ID, or rollback on error
+    if (error) {
+      setProducts((prev) => prev.filter((p) => p.id !== tempId));
+    } else {
+      fetchProducts();
+    }
   };
 
   const handleEditProduct = async (id: string, updated: Omit<Product, "id" | "clicks">) => {
