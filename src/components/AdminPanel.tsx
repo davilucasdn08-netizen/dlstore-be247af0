@@ -108,6 +108,7 @@ const AdminPanel = ({ isOpen, onClose, products, onAddProduct, onEditProduct, on
             affiliateLink: item.url,
             category: result.category || "Eletrônicos e Informática",
             price: result.price || "",
+            rating: result.rating || "",
           });
           setBulkQueue((prev) =>
             prev.map((q, qi) =>
