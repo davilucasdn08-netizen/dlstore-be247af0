@@ -10,7 +10,7 @@ interface ProductCardProps {
   onClickTrack: () => void;
 }
 
-const ProductCard = ({ name, imageUrl, affiliateLink, category, price, onClickTrack }: ProductCardProps) => {
+const ProductCard = ({ name, imageUrl, affiliateLink, category, price, rating, onClickTrack }: ProductCardProps) => {
   const handleBuy = () => {
     onClickTrack();
     window.open(affiliateLink, "_blank", "noopener,noreferrer");
