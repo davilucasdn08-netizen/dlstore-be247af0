@@ -102,7 +102,8 @@ const Index = () => {
       affiliate_link: product.affiliateLink,
       category: product.category,
       price: product.price,
-    });
+      rating: product.rating || "",
+    } as any);
     // Refresh to get real ID, or rollback on error
     if (error) {
       setProducts((prev) => prev.filter((p) => p.id !== tempId));
