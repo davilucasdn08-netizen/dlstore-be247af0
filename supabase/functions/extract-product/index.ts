@@ -104,7 +104,6 @@ function extractRating(html: string): string {
   
   return "";
 }
-}
 
 function extractTitle(html: string): string {
   const patterns = [
