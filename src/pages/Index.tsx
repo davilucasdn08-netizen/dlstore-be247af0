@@ -3,6 +3,7 @@ import { Search, Lock } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import AdminPanel from "@/components/AdminPanel";
 import AdminLoginDialog from "@/components/AdminLoginDialog";
+import ContactSection from "@/components/ContactSection";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface Product {
