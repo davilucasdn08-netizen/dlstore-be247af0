@@ -168,6 +168,7 @@ const AdminPanel = ({ isOpen, onClose, products, onAddProduct, onEditProduct, on
       affiliateLink,
       category: category || "Eletrônicos e Informática",
       price,
+      rating: "",
     });
     setName(""); setImageUrl(""); setAffiliateLink(""); setCategory(""); setPrice("");
     toast.success("Produto adicionado!");
