@@ -68,6 +68,7 @@ const AdminPanel = ({ isOpen, onClose, products, onAddProduct, onEditProduct, on
         imageUrl: d.imageUrl || "",
         price: d.price || "",
         category: d.category || "Eletrônicos e Informática",
+        rating: d.rating || "",
       };
     } catch {
       return null;
