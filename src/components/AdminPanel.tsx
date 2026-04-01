@@ -30,6 +30,7 @@ type BulkItem = {
   imageUrl?: string;
   price?: string;
   category?: string;
+  rating?: string;
 };
 
 const AdminPanel = ({ isOpen, onClose, products, onAddProduct, onEditProduct, onDeleteProduct, onLogout }: AdminPanelProps) => {
