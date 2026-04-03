@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { Search, Lock } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import AdminPanel from "@/components/AdminPanel";
@@ -42,6 +42,7 @@ const Index = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const adminCodeRef = useRef<string>("");
 
   const fetchProducts = useCallback(async () => {
     const { data } = await supabase
@@ -67,7 +68,6 @@ const Index = () => {
   useEffect(() => {
     fetchProducts();
 
-    // Realtime: keep products in sync across all devices
     const channel = supabase
       .channel("products-realtime")
       .on(
@@ -90,62 +90,71 @@ const Index = () => {
     });
   }, [products, search, activeCategory]);
 
+  const adminAction = useCallback(async (action: string, payload: Record<string, unknown>) => {
+    const { data, error } = await supabase.functions.invoke("admin-products", {
+      body: { adminCode: adminCodeRef.current, action, ...payload },
+    });
+    if (error) throw error;
+    if (data?.error) throw new Error(data.error);
+    return data;
+  }, []);
+
   const handleAddProduct = async (product: Omit<Product, "id" | "clicks">) => {
-    // Optimistic: add immediately to UI
     const tempId = crypto.randomUUID();
     const optimistic: Product = { ...product, id: tempId, clicks: 0 };
     setProducts((prev) => [optimistic, ...prev]);
 
-    const { error } = await supabase.from("products").insert({
-      name: product.name,
-      image_url: product.imageUrl,
-      affiliate_link: product.affiliateLink,
-      category: product.category,
-      price: product.price,
-      rating: product.rating || "",
-    } as any);
-    // Refresh to get real ID, or rollback on error
-    if (error) {
-      setProducts((prev) => prev.filter((p) => p.id !== tempId));
-    } else {
+    try {
+      await adminAction("insert", {
+        name: product.name,
+        image_url: product.imageUrl,
+        affiliate_link: product.affiliateLink,
+        category: product.category,
+        price: product.price,
+        rating: product.rating || "",
+      });
       fetchProducts();
+    } catch {
+      setProducts((prev) => prev.filter((p) => p.id !== tempId));
     }
   };
 
   const handleEditProduct = async (id: string, updated: Omit<Product, "id" | "clicks">) => {
-    const { error } = await supabase
-      .from("products")
-      .update({
+    try {
+      await adminAction("update", {
+        id,
         name: updated.name,
         image_url: updated.imageUrl,
         affiliate_link: updated.affiliateLink,
         category: updated.category,
         price: updated.price,
-      })
-      .eq("id", id);
-    if (!error) fetchProducts();
+      });
+      fetchProducts();
+    } catch {
+      // silent
+    }
   };
 
   const handleDeleteProduct = async (id: string) => {
-    const { error } = await supabase.from("products").delete().eq("id", id);
-    if (!error) fetchProducts();
+    try {
+      await adminAction("delete", { id });
+      fetchProducts();
+    } catch {
+      // silent
+    }
   };
 
   const handleClickTrack = async (id: string) => {
-    const product = products.find((p) => p.id === id);
-    if (!product) return;
-    await supabase
-      .from("products")
-      .update({ clicks: product.clicks + 1 })
-      .eq("id", id);
     setProducts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, clicks: p.clicks + 1 } : p))
     );
+    await supabase.rpc("increment_product_clicks" as any, { product_id: id });
   };
 
   const handleLogin = async (code: string) => {
     const hash = await hashCode(code);
     if (hash === ADMIN_HASH) {
+      adminCodeRef.current = code;
       setIsAdmin(true);
       setShowLogin(false);
       setShowAdminPanel(true);
@@ -155,6 +164,7 @@ const Index = () => {
   };
 
   const handleLogout = () => {
+    adminCodeRef.current = "";
     setIsAdmin(false);
     setShowAdminPanel(false);
   };
