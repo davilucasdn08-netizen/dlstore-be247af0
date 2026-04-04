@@ -209,7 +209,7 @@ const Index = () => {
               <span className="text-gradient-primary">DL</span>
               <span className="text-foreground">STORE</span>
             </h1>
-            <Link to="/sobre" className="hidden sm:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/sobre" className="text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors shrink-0">
               Conheça a marca
             </Link>
           </div>
