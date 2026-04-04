@@ -31,9 +31,14 @@ export type CategoryName = typeof CATEGORIES[number];
 // Primary categories shown as quick-filter chips
 export const PRIMARY_CATEGORIES = [
   "Eletrônicos e Informática",
+  "Celulares e Smartphones",
+  "Computadores e Notebooks",
+  "Games e Consoles",
+  "TV, Áudio e Vídeo",
   "Moda Feminina",
   "Moda Masculina",
   "Casa e Decoração",
   "Beleza e Cuidados Pessoais",
+  "Eletrodomésticos",
   "Esportes e Fitness",
 ] as const;

@@ -37,7 +37,6 @@ const CategoryMenu = ({ activeCategory, onSelectCategory }: CategoryMenuProps) =
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        onMouseEnter={() => setIsOpen(true)}
         className={`p-2.5 rounded-full transition-all ${
           isOpen
             ? "gradient-primary text-primary-foreground"
@@ -51,8 +50,8 @@ const CategoryMenu = ({ activeCategory, onSelectCategory }: CategoryMenuProps) =
       {isOpen && (
         <div
           ref={menuRef}
-          onMouseLeave={() => setIsOpen(false)}
           className="absolute right-0 top-full mt-2 w-72 max-h-[70vh] overflow-y-auto rounded-xl bg-card border border-border shadow-2xl z-50 py-2 animate-in fade-in slide-in-from-top-2 duration-200"
+          style={{ maxWidth: 'min(288px, calc(100vw - 1.5rem))' }}
         >
           <div className="px-4 py-2 border-b border-border">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">

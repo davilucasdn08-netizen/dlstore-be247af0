@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { Search, Lock, User, ArrowRight, Zap, TrendingUp, ShieldCheck } from "lucide-react";
+import { Search, Lock, User, ArrowRight, Zap, TrendingUp, ShieldCheck, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
 import AdminPanel from "@/components/AdminPanel";
@@ -194,13 +194,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Sticky header */}
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-6 shrink-0">
+        {/* Top row: logo + right actions */}
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 pt-3 pb-2 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3 sm:gap-6 shrink-0">
             <h1 
-              className="text-2xl md:text-3xl font-black tracking-tight cursor-pointer select-none" 
+              className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight cursor-pointer select-none" 
               translate="no"
               onClick={handleSecretLogoClick}
               title="DLSTORE"
@@ -213,7 +214,8 @@ const Index = () => {
             </Link>
           </div>
 
-          <div className="relative flex-1 max-w-md">
+          {/* Search bar: hidden on mobile (shown in row below), visible on sm+ */}
+          <div className="relative flex-1 max-w-md hidden sm:block">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
@@ -229,7 +231,7 @@ const Index = () => {
             />
           </div>
 
-          <div className="flex items-center gap-2 lg:gap-4 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <CategoryMenu activeCategory={activeCategory} onSelectCategory={setActiveCategory} />
             
             {user ? (
@@ -264,8 +266,27 @@ const Index = () => {
           </div>
         </div>
 
+        {/* Mobile search bar - only visible on small screens */}
+        <div className="sm:hidden px-3 pb-2">
+          <div className="relative w-full">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Buscar produtos..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                if (activeCategory === "Início" && e.target.value.trim() !== "") {
+                   setActiveCategory("Todos");
+                }
+              }}
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+        </div>
+
         {/* Quick-filter chips */}
-        <div className="max-w-6xl mx-auto px-4 pb-3 flex gap-2 overflow-x-auto scrollbar-hide">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 pb-3 flex gap-2 overflow-x-auto scrollbar-hide">
           <button
             onClick={() => {
               setActiveCategory("Início");
@@ -308,7 +329,7 @@ const Index = () => {
 
       {/* Landing Page Hero Section */}
       {isHome && (
-        <section className="relative w-full overflow-hidden bg-background py-12 md:py-16 border-b border-border/50 flex flex-col items-center justify-center min-h-[70vh] md:min-h-[80vh]">
+        <section className="relative w-full overflow-hidden bg-background py-10 md:py-16 border-b border-border/50 flex flex-col items-center justify-center min-h-[60vh] md:min-h-[80vh]">
           {/* Abstract Premium Backgrounds */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl overflow-hidden pointer-events-none">
              <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[50%] rounded-full bg-primary/20 blur-[120px]" />
@@ -318,34 +339,34 @@ const Index = () => {
 
           <div className="relative max-w-5xl mx-auto px-4 text-center z-10 flex flex-col items-center w-full">
             
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/80 border border-border text-sm font-medium text-foreground mb-6 md:mb-8 animate-in slide-in-from-bottom-3 duration-500">
-               <Zap className="text-primary fill-primary" size={16} />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/80 border border-border text-xs sm:text-sm font-medium text-foreground mb-5 md:mb-8 animate-in slide-in-from-bottom-3 duration-500">
+               <Zap className="text-primary fill-primary" size={14} />
                <span>A sua nova experiência de compras</span>
             </div>
 
-            <h2 className="text-4xl md:text-[4rem] font-black tracking-tight text-foreground leading-[1.1] md:leading-[1.1] mb-6 animate-in slide-in-from-bottom-4 duration-700">
-              Os melhores produtos <br />
+            <h2 className="text-3xl sm:text-4xl md:text-[4rem] font-black tracking-tight text-foreground leading-[1.15] md:leading-[1.1] mb-5 animate-in slide-in-from-bottom-4 duration-700 px-2">
+              Os melhores produtos <br className="hidden sm:block" />
               em um só lugar. <span className="text-gradient-primary">DLSTORE</span>
             </h2>
 
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl text-center mb-8 md:mb-10 animate-in slide-in-from-bottom-5 duration-1000">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl text-center mb-7 md:mb-10 animate-in slide-in-from-bottom-5 duration-1000 px-2">
               A curadoria mais inteligente da internet. Filtramos as maiores tendências globais para entregar as ofertas mais exclusivas, com autoridade e qualidade premium.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-in slide-in-from-bottom-6 duration-1000">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto animate-in slide-in-from-bottom-6 duration-1000 px-2">
                <button 
                  onClick={() => {
                    setActiveCategory("Todos");
                    window.scrollTo({ top: 0, behavior: 'smooth' });
                  }}
-                 className="flex h-14 items-center justify-center gap-2 px-8 rounded-full gradient-primary text-primary-foreground font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-primary/25"
+                 className="flex h-12 sm:h-14 items-center justify-center gap-2 px-6 sm:px-8 rounded-full gradient-primary text-primary-foreground font-bold text-base sm:text-lg hover:scale-105 transition-transform shadow-lg shadow-primary/25"
                >
                  Explorar <ArrowRight size={20} />
                </button>
                {!user && (
                  <LoginModal>
                    <button 
-                      className="flex h-14 items-center justify-center gap-2 px-8 rounded-full bg-secondary text-secondary-foreground font-bold text-lg hover:bg-secondary/80 border border-border transition-colors w-full sm:w-auto"
+                      className="flex h-12 sm:h-14 items-center justify-center gap-2 px-6 sm:px-8 rounded-full bg-secondary text-secondary-foreground font-bold text-base sm:text-lg hover:bg-secondary/80 border border-border transition-colors w-full sm:w-auto"
                    >
                      Fazer Login
                    </button>
@@ -354,22 +375,22 @@ const Index = () => {
             </div>
 
             {/* Features Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mt-12 md:mt-16 animate-in fade-in duration-1000 delay-500">
-               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><ShieldCheck size={20} /></div>
-                  <span className="font-semibold text-sm">Garantia Amazon</span>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full max-w-4xl mt-10 md:mt-16 animate-in fade-in duration-1000 delay-500 px-2">
+               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-3 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><ShieldCheck size={18} /></div>
+                  <span className="font-semibold text-xs sm:text-sm">Garantia Amazon</span>
                </div>
-               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><Zap size={20} /></div>
-                  <span className="font-semibold text-sm">Envio Rápido</span>
+               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-3 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><Zap size={18} /></div>
+                  <span className="font-semibold text-xs sm:text-sm">Envio Rápido</span>
                </div>
-               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><TrendingUp size={20} /></div>
-                  <span className="font-semibold text-sm">Curadoria Premium</span>
+               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-3 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><TrendingUp size={18} /></div>
+                  <span className="font-semibold text-xs sm:text-sm">Curadoria Premium</span>
                </div>
-               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><Lock size={20} /></div>
-                  <span className="font-semibold text-sm">Compra Segura</span>
+               <div className="bg-card/50 backdrop-blur-sm border border-border/50 p-3 md:p-4 rounded-2xl flex flex-col items-center justify-center gap-2 text-center shadow-sm hover:scale-105 transition-transform">
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><Lock size={18} /></div>
+                  <span className="font-semibold text-xs sm:text-sm">Compra Segura</span>
                </div>
             </div>
 
@@ -391,13 +412,13 @@ const Index = () => {
         </div>
       )}
 
-      <main id="vitrine-start" className="max-w-6xl mx-auto px-4 py-8 md:py-12 pb-20 scroll-mt-24">
+      <main id="vitrine-start" className="max-w-6xl mx-auto px-3 sm:px-4 py-6 md:py-12 pb-24 scroll-mt-24">
         {isHome && (
-          <div className="mb-8 flex items-center justify-between">
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground">Seleção <span className="text-primary">Especial</span></h3>
+          <div className="mb-6 flex items-center justify-between">
+            <h3 className="text-xl md:text-3xl font-bold text-foreground">Seleção <span className="text-primary">Especial</span></h3>
           </div>
         )}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -418,6 +439,17 @@ const Index = () => {
       </main>
 
       <ContactSection />
+
+      {/* Floating WhatsApp Button - Mobile Friendly */}
+      <a
+        href="https://wa.me/5531971638543"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fab-whatsapp"
+        aria-label="Falar no WhatsApp"
+      >
+        <MessageCircle size={26} />
+      </a>
 
       <AdminLoginDialog isOpen={showLogin} onClose={() => setShowLogin(false)} onLogin={handleLogin} />
 
