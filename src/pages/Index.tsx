@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { Search, Lock, User, ArrowRight, Zap, TrendingUp, ShieldCheck, MessageCircle } from "lucide-react";
+import { Search, Lock, User, ArrowRight, Zap, TrendingUp, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
 import AdminPanel from "@/components/AdminPanel";
@@ -446,16 +446,6 @@ const Index = () => {
 
       <ContactSection />
 
-      {/* Floating WhatsApp Button - Mobile Friendly */}
-      <a
-        href="https://wa.me/5531971638543"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fab-whatsapp"
-        aria-label="Falar no WhatsApp"
-      >
-        <MessageCircle size={26} />
-      </a>
 
       <AdminLoginDialog isOpen={showLogin} onClose={() => setShowLogin(false)} onLogin={handleLogin} />
 
