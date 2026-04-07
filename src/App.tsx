@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import About from "./pages/About.tsx";
 import Profile from "./pages/Profile.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import Product from "./pages/Product.tsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/sobre" element={<About />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/produto/:id" element={<Product />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
