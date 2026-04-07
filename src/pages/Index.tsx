@@ -446,16 +446,6 @@ const Index = () => {
 
       <ContactSection />
 
-      {/* Floating WhatsApp Button - Mobile Friendly */}
-      <a
-        href="https://wa.me/5531971638543"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fab-whatsapp"
-        aria-label="Falar no WhatsApp"
-      >
-        <MessageCircle size={26} />
-      </a>
 
       <AdminLoginDialog isOpen={showLogin} onClose={() => setShowLogin(false)} onLogin={handleLogin} />
 
