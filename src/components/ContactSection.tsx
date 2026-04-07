@@ -1,8 +1,7 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { Instagram } from "lucide-react";
 
 const ContactSection = () => {
-  const phoneNumber = "5531971638543";
-  const displayNumber = "(31) 97163-8543";
+  const instagramUrl = "https://www.instagram.com/dlstore_curadoria?igsh=MWJva2R5cGtmbW4xdA%3D%3D&utm_source=qr";
 
   return (
     <section className="bg-card border-t border-border py-10">
@@ -11,22 +10,15 @@ const ContactSection = () => {
         <p className="text-muted-foreground text-sm mb-6">
           Dúvidas, sugestões ou precisa de ajuda? Fale conosco!
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex items-center justify-center">
           <a
-            href={`https://wa.me/${phoneNumber}`}
+            href={instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
           >
-            <MessageCircle size={20} />
-            WhatsApp
-          </a>
-          <a
-            href={`tel:+${phoneNumber}`}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary border border-border text-foreground font-semibold hover:border-primary/40 transition-colors"
-          >
-            <Phone size={20} />
-            {displayNumber}
+            <Instagram size={20} />
+            @dlstore_curadoria
           </a>
         </div>
       </div>
