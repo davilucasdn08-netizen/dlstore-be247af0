@@ -25,6 +25,7 @@ const App = () => (
             <Route path="/sobre" element={<About />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/produto/:id" element={<Product />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
