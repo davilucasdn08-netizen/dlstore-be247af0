@@ -139,28 +139,7 @@ export function LoginModal({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const PasswordInput = ({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) => (
-    <div className="relative">
-      <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      <Input
-        type={showPassword ? "text" : "password"}
-        placeholder={placeholder}
-        required
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="bg-background pl-10 pr-10"
-        minLength={6}
-      />
-      <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-        tabIndex={-1}
-      >
-        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-      </button>
-    </div>
-  );
+  // PasswordInput references moved to top-level PasswordField component
 
   return (
     <Dialog open={isOpen} onOpenChange={(o) => { setIsOpen(o); if (!o) resetForm(); }}>
