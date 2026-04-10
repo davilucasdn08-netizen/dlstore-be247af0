@@ -120,7 +120,7 @@ async function fetchProductPage(url: string): Promise<string | null> {
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 3;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
