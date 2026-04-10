@@ -10,16 +10,25 @@ interface AdminLoginDialogProps {
 const AdminLoginDialog = ({ isOpen, onClose, onLogin }: AdminLoginDialogProps) => {
   const [code, setCode] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
-    const success = await onLogin(code);
-    if (!success) {
-      setError(true);
-      setTimeout(() => setError(false), 2000);
+    if (!code.trim() || loading) return;
+    setLoading(true);
+    setError(false);
+    try {
+      const success = await onLogin(code);
+      if (!success) {
+        setError(true);
+        setTimeout(() => setError(false), 2000);
+      } else {
+        setCode("");
+      }
+    } finally {
+      setLoading(false);
     }
-    setCode("");
   };
 
   return (
